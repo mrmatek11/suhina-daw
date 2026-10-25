@@ -843,7 +843,8 @@ them is drawn.
 A note-playing track has one small control immediately after its record-arm button that reads
 the track's monitoring mode, Auto, In or Off (the chip shows In as **On**), before its name or volume controls. A click opens the three choices, with a tooltip
 explaining the current state; it is not a second record-arm button or headphone cue. The same
-choices appear in the MIDI input menu, beside port and channel selection. Auto (the default)
+choices appear in the MIDI input menu, beside port and channel selection; a header too narrow
+for the chip to end before the automation button leaves it out, and that menu is the way (#876). Auto (the default)
 hears the input while armed; In hears it independently of arming; Off never hears the live
 input. Recording still depends on arm and record, including when monitoring is Off; In alone
 never records. Monitoring does not suppress clip playback. The selected mode is project data,
