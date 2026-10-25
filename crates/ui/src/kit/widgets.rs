@@ -43,11 +43,12 @@ fn value_drag_id() -> Id {
 /// dragged. The pointer hides and is held in place while the drag lasts, and the raw mouse motion
 /// is read, so a long drag never stops at the screen's edge: Wayland and macOS lock the pointer,
 /// X11 and Windows keep sending raw motion while it is hidden. [`release_value_drag`] gives the
-/// pointer back. A window without focus never takes the pointer.
+/// pointer back. Only a drag's first frame takes the pointer, in a window with focus, so a drag
+/// whose release went to another window does not take it again when focus comes back.
 pub fn value_drag_delta(ui: &Ui, response: &Response) -> Vec2 {
     let ctx = ui.ctx();
     let held = ctx.data(|d| d.get_temp::<bool>(value_drag_id())).unwrap_or(false);
-    if !held && ctx.input(|i| i.focused) {
+    if !held && response.drag_started() && ctx.input(|i| i.focused) {
         ctx.send_viewport_cmd(egui::ViewportCommand::CursorVisible(false));
         ctx.send_viewport_cmd(egui::ViewportCommand::CursorGrab(egui::CursorGrab::Locked));
         ctx.data_mut(|d| d.insert_temp(value_drag_id(), true));
@@ -627,5 +628,9 @@ mod tests {
         let shown = [frame(unfocused()), frame(unfocused())].concat();
         assert!(!held(&ctx), "an unfocused window never holds the pointer");
         assert!(shown.contains(&ViewportCommand::CursorVisible(true)), "{shown:?}");
+        // Focus back with the drag still going (the release never came): the pointer stays shown.
+        let back = [frame(pointer(Pos2::new(20.0, 5.0), None)), frame(pointer(Pos2::new(20.0, 0.0), None))].concat();
+        assert!(!held(&ctx), "only a new press takes the pointer again");
+        assert!(!back.contains(&ViewportCommand::CursorVisible(false)), "{back:?}");
     }
 }
