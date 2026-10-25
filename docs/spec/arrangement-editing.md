@@ -850,7 +850,7 @@ input. Recording still depends on arm and record, including when monitoring is O
 never records. Monitoring does not suppress clip playback. The selected mode is project data,
 set through `track.setMidiInput` with `monitor: auto | in | off`, and supports undo and redo.
 Changing mode releases notes that are no longer monitored, without retriggering held keys.
-Old projects without this field retain Auto. Compact and expanded headers reserve space for the monitor control before names and level controls.
+Old projects without this field retain Auto. Where the chip shows, compact and expanded headers reserve its space before names and level controls; where it is left out, the name starts after the arm button.
 
 The popup is titled Hear your MIDI keyboard and offers three single-line choices: Automatic,
 Always on and Off. A fixed-height footer explains the hovered or keyboard-focused choice,
