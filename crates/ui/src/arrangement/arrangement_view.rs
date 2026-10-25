@@ -550,6 +550,7 @@ fn show_lanes(ui: &mut Ui, timeline: &Timeline, state: &mut ArrangementViewState
         state.time_selection = (end - start > 1e-6).then_some(TimeSelection { tracks, start, end, row: None });
         if ui.input(|i| !i.pointer.primary_down()) {
             state.ruler_select = None;
+            play_from_selection(state, timeline, actions);
         }
     }
     let beat_at = |x: f32, free: bool, state: &ArrangementViewState| {
@@ -1059,6 +1060,7 @@ fn show_lanes(ui: &mut Ui, timeline: &Timeline, state: &mut ArrangementViewState
                     state.selected.clear();
                     state.anchor = None;
                 }
+                play_from_selection(state, timeline, actions);
             }
         } else {
             // A rectangle that picks the clips it touches, whole.
@@ -1330,6 +1332,17 @@ fn show_lanes(ui: &mut Ui, timeline: &Timeline, state: &mut ArrangementViewState
         if x >= time.left() && x <= time.right() {
             painter.vline(x, time.y_range(), theme::hairline(theme::accent()));
         }
+    }
+}
+
+/// A time selection just painted moves the play start marker to its start, so Play starts there
+/// (#937); while playing, playback is left alone, as picking clips leaves it.
+fn play_from_selection(state: &ArrangementViewState, timeline: &Timeline, actions: &mut Vec<Action>) {
+    if let Some(selection) = &state.time_selection
+        && !timeline.running
+        && (selection.start - timeline.start_beat).abs() > 1e-9
+    {
+        actions.push(Action::new("transport.setPosition", json!({ "beats": selection.start })));
     }
 }
 
