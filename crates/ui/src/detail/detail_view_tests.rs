@@ -318,11 +318,23 @@ fn authored_control_positions_and_auto_flow_have_the_expected_extent() {
     let mut next = p.clone();
     next.ui.position = None;
     next.ui.size = Some([200.0, 60.0]);
-    let cells = parameter_layout(&[p, next], 320.0, f32::INFINITY, &[]);
+    let cells = parameter_layout(&[p, next.clone()], 320.0, f32::INFINITY, &[]);
     assert_eq!(cells[0].min, Pos2::new(300.0, 10.0));
     assert_eq!(cells[0].max, Pos2::new(540.0, 130.0));
     assert_eq!(cells[1].min, Pos2::new(0.0, 130.0));
     assert_eq!(cells[1].max, Pos2::new(200.0, 190.0));
+    // A cell placed in the second column, listed first: the list continues under it there.
+    let mut placed = next.clone();
+    placed.ui.position = Some([320.0, 0.0]);
+    let auto = |id: &str| GraphParameter {
+        id: id.into(),
+        ui: ParameterUi { size: Some([200.0, 60.0]), ..ParameterUi::default() },
+        ..next.clone()
+    };
+    let cells = parameter_layout(&[placed, auto("a"), auto("b"), auto("c")], 320.0, 130.0, &[]);
+    assert_eq!(cells[1].min, Pos2::new(0.0, 0.0));
+    assert_eq!(cells[2].min, Pos2::new(0.0, 60.0));
+    assert_eq!(cells[3].min, Pos2::new(320.0, 60.0), "{cells:?}");
 }
 
 #[test]

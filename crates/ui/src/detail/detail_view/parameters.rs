@@ -338,26 +338,30 @@ pub(super) fn parameter_layout(
     max_height: f32,
     hidden: &[String],
 ) -> Vec<Rect> {
-    let (mut column, mut bottom) = (0.0f32, 0.0f32);
-    parameters
-        .iter()
-        .filter(|p| !hidden.contains(&p.id))
+    let shown = || parameters.iter().filter(|p| !hidden.contains(&p.id));
+    let size = |p: &GraphParameter| p.ui.size.unwrap_or([width, parameter_height(p)]);
+    // A placed cell pushes down the columns it reaches into, wherever it is in the list.
+    let placed: Vec<Rect> = shown()
+        .filter_map(|p| p.ui.position.map(|[x, y]| Rect::from_min_size(Pos2::new(x, y), size(p).into())))
+        .collect();
+    let floor = |column: f32| {
+        placed.iter().filter(|r| r.right() > column && r.left() < column + width).fold(0.0f32, |b, r| b.max(r.bottom()))
+    };
+    let (mut column, mut bottom) = (0.0f32, floor(0.0));
+    shown()
         .map(|parameter| {
-            let [w, h] = parameter.ui.size.unwrap_or([width, parameter_height(parameter)]);
+            let [w, h] = size(parameter);
             let [x, y] = parameter.ui.position.unwrap_or_else(|| {
                 // Half a point of slack: heights summed in another order must not open a column.
                 if bottom > 0.0 && bottom + h > max_height + 0.5 {
                     column += width;
-                    bottom = 0.0;
+                    bottom = floor(column);
                 }
-                [column, bottom]
+                let start = [column, bottom];
+                bottom += h;
+                start
             });
-            let rect = Rect::from_min_size(Pos2::new(x, y), Vec2::new(w, h));
-            // A placed cell pushes down only the column it reaches into.
-            if rect.right() > column && rect.left() < column + width {
-                bottom = bottom.max(rect.bottom());
-            }
-            rect
+            Rect::from_min_size(Pos2::new(x, y), Vec2::new(w, h))
         })
         .collect()
 }
