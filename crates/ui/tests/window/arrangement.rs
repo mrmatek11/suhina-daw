@@ -1346,6 +1346,14 @@ fn a_painted_time_selection_moves_the_play_start_to_its_start() {
     harness.run_steps(2);
     render_a_block(&mut renderer);
     assert_eq!((monitor.running(), monitor.start_beat()), (true, start));
+    // Playing from the selected clip (Shift+Space) still starts at the clip.
+    harness.get_by_label("Stop").click();
+    harness.run_steps(2);
+    render_a_block(&mut renderer);
+    harness.key_press_modifiers(Modifiers::SHIFT, Key::Space);
+    harness.run_steps(2);
+    render_a_block(&mut renderer);
+    assert_eq!((monitor.running(), monitor.start_beat()), (true, 64.0));
 }
 
 #[test]

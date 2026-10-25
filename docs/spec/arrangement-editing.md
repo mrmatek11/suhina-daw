@@ -508,7 +508,8 @@ The transport starts from the **play start marker**, a position in beats (0 when
 opens). While stopped, the playhead sits on the marker.
 
 **A painted time selection** (over the lanes or along the ruler) moves the marker to its start when
-the button goes up, so Play starts there (#937), even with a clip still picked whole. While playing it leaves playback alone, as picking
+the button goes up, so Play starts there (#937), even with a clip still picked whole; playing from
+the selected clip (Shift+Space) still starts at the clip. While playing it leaves playback alone, as picking
 clips does; the marker stays where it was.
 
 **Where other DAWs stand** (their public manuals, October 2026): every one starts playback from a
