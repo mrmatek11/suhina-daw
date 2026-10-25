@@ -328,16 +328,35 @@ pub(super) fn parameter_height(parameter: &GraphParameter) -> f32 {
         }
 }
 
-pub(super) fn parameter_layout(parameters: &[GraphParameter], width: f32, hidden: &[String]) -> Vec<Rect> {
-    let mut bottom = 0.0f32;
+/// Where each shown parameter's cell goes: at its own position, or under the one before in a
+/// column `width` wide. A cell that would end below `max_height` starts a new column to the
+/// right, so a long list widens the panel instead of scrolling (ADR 0021 › Amendment: device
+/// panels, 5); `f32::INFINITY` keeps one column.
+pub(super) fn parameter_layout(
+    parameters: &[GraphParameter],
+    width: f32,
+    max_height: f32,
+    hidden: &[String],
+) -> Vec<Rect> {
+    let (mut column, mut bottom) = (0.0f32, 0.0f32);
     parameters
         .iter()
         .filter(|p| !hidden.contains(&p.id))
         .map(|parameter| {
-            let [x, y] = parameter.ui.position.unwrap_or([0.0, bottom]);
             let [w, h] = parameter.ui.size.unwrap_or([width, parameter_height(parameter)]);
+            let [x, y] = parameter.ui.position.unwrap_or_else(|| {
+                // Half a point of slack: heights summed in another order must not open a column.
+                if bottom > 0.0 && bottom + h > max_height + 0.5 {
+                    column += width;
+                    bottom = 0.0;
+                }
+                [column, bottom]
+            });
             let rect = Rect::from_min_size(Pos2::new(x, y), Vec2::new(w, h));
-            bottom = bottom.max(rect.bottom());
+            // A placed cell pushes down only the column it reaches into.
+            if rect.right() > column && rect.left() < column + width {
+                bottom = bottom.max(rect.bottom());
+            }
             rect
         })
         .collect()
