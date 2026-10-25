@@ -1337,6 +1337,15 @@ fn a_painted_time_selection_moves_the_play_start_to_its_start() {
     let start = paint(&mut harness, clip.center().y, clip.left() - 64.0, clip.left() + 32.0);
     assert_eq!(monitor.start_beat(), start);
     assert!(start < 64.0, "{start}");
+    // A clip picked whole, then a span painted on the ruler before it: Play starts at the span,
+    // not at the clip still picked.
+    click_name_bar(&mut harness, "Clip Beat B on Drums at bar 17");
+    let start = paint(&mut harness, ruler.center().y, clip.left() - 96.0, clip.left() - 48.0);
+    assert!(harness.state().arrangement().selected_clip().is_some(), "the clip stays picked");
+    harness.get_by_label("Play").click();
+    harness.run_steps(2);
+    render_a_block(&mut renderer);
+    assert_eq!((monitor.running(), monitor.start_beat()), (true, start));
 }
 
 #[test]

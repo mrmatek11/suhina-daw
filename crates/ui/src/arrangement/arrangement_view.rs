@@ -1336,8 +1336,12 @@ fn show_lanes(ui: &mut Ui, timeline: &Timeline, state: &mut ArrangementViewState
 }
 
 /// A time selection just painted moves the play start marker to its start, so Play starts there
-/// (#937); while playing, playback is left alone, as picking clips leaves it.
-fn play_from_selection(state: &ArrangementViewState, timeline: &Timeline, actions: &mut Vec<Action>) {
+/// (#937), not from a clip still picked whole; while playing, playback is left alone, as picking
+/// clips leaves it.
+fn play_from_selection(state: &mut ArrangementViewState, timeline: &Timeline, actions: &mut Vec<Action>) {
+    if state.time_selection.is_some() {
+        state.picked_whole = false;
+    }
     if let Some(selection) = &state.time_selection
         && !timeline.running
         && (selection.start - timeline.start_beat).abs() > 1e-9
