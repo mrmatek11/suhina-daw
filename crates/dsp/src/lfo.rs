@@ -25,6 +25,40 @@ impl Shape {
         [Shape::Sine, Shape::Triangle, Shape::SawUp, Shape::SawDown, Shape::Square, Shape::Random];
 }
 
+/// The names of [`Shape::ALL`], for a choice parameter.
+pub const SHAPE_NAMES: [&str; 6] = ["Sine", "Triangle", "Saw Up", "Saw Down", "Square", "Random"];
+
+/// The note lengths a tempo-synced LFO can take, longest first, and their length in beats (a bar
+/// is four beats). Devices list them in this order as a choice parameter.
+pub const SYNCED_RATES: [(&str, f64); 15] = [
+    ("8 Bars", 32.0),
+    ("4 Bars", 16.0),
+    ("2 Bars", 8.0),
+    ("1 Bar", 4.0),
+    ("1/2", 2.0),
+    ("1/4 Dotted", 1.5),
+    ("1/2 Triplet", 4.0 / 3.0),
+    ("1/4", 1.0),
+    ("1/8 Dotted", 0.75),
+    ("1/4 Triplet", 2.0 / 3.0),
+    ("1/8", 0.5),
+    ("1/8 Triplet", 1.0 / 3.0),
+    ("1/16", 0.25),
+    ("1/16 Triplet", 1.0 / 6.0),
+    ("1/32", 0.125),
+];
+pub const SYNCED_RATE_NAMES: [&str; 15] = {
+    let mut names = [""; 15];
+    let mut i = 0;
+    while i < SYNCED_RATES.len() {
+        names[i] = SYNCED_RATES[i].0;
+        i += 1;
+    }
+    names
+};
+/// Index of "1/4" in [`SYNCED_RATES`].
+pub const DEFAULT_SYNCED_RATE: usize = 7;
+
 /// The waveform at `cycles` (any real number; the integer part counts cycles), from -1.0 to 1.0.
 /// Every shape except the saws starts at its centre, rising, so a phase offset of a quarter
 /// cycle reaches the top. Non-finite input gives 0.0.

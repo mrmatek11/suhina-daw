@@ -2,7 +2,7 @@
   "note": "Live 12 devices (manual chapters 29-31: 42 audio effects, 8 MIDI effects, 13 instruments) and their Suhina counterpart. 'kind' is our own two- or three-word category for the device, never its manual text; 'status' is equivalent | close | planned | none, where 'planned' means ROADMAP.md names work of this kind. See docs/research/parity-live-12.md (Sources and IP).",
   "audio_effects": [
     ["Amp", "29.1", "neural amp capture", "equivalent", "Suhina NAM Amp Modeler runs a .nam model with trims, its own EQ and a trim delay (docs/spec/nam-amp-and-cab.md)"],
-    ["Auto Filter", "29.2", "multimode filter", "planned", "ROADMAP: EQ, filter (own dsp filters); only biquads and crossovers exist today"],
+    ["Auto Filter", "29.2", "multimode filter", "close", "Suhina filter: low, high and band pass, notch and morph at 12 or 24 dB/octave, drive, an LFO and an envelope follower on the cutoff; one filter circuit, no side-chain"],
     ["Auto Pan-Tremolo", "29.3", "pan and tremolo", "equivalent", "Suhina auto-pan does both modes"],
     ["Auto Shift", "29.4", "pitch correction", "none", ""],
     ["Beat Repeat", "29.5", "buffer repeat", "none", ""],
@@ -72,6 +72,7 @@
   "suhina_devices": [
     ["utility", "effect", "gain, balance, width, mono, bass mono, phase, channels, DC filter (13 parameters)"],
     ["auto-pan", "effect", "LFO panning and tremolo, free Hz or synced (9 parameters)"],
+    ["filter", "effect", "state-variable filter, five responses, 12 or 24 dB/octave, drive, LFO and envelope follower (16 parameters)"],
     ["dj-eq", "effect", "three bands with kills, Linkwitz-Riley crossovers at 24 or 48 dB/octave (9 parameters)"],
     ["vinyl-distortion", "effect", "tracing, pinch, crackle, oversampled (12 parameters)"],
     ["overdrive", "effect", "pedal-style: band, drive, tone, dynamics, dry/wet (7 parameters)"],

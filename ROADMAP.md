@@ -96,7 +96,8 @@ exists in `devices/`, passes its tests and runs in track chains.
 | reverb: algorithmic, early reflections, damped feedback delay network, chorus, freeze | own | done |
 | convolution reverb | own convolution | planned |
 | multi-stage saturation | own, oversampled | planned |
-| EQ, filter | own (`dsp` filters) | planned |
+| filter: low, high and band pass, notch and morph at 12 or 24 dB/octave, drive, an LFO and an envelope follower on the cutoff | own (`dsp` state-variable filter) | done |
+| parametric EQ | own (`dsp` filters) | planned |
 | FM synth | MSFA (Apache-2.0) via Dexed | DX7-style engine (32 algorithms) done; more waveforms and a filter planned |
 | wavetable synth | Vital (GPL-3.0), under its own name | planned |
 | subtractive synth | own, Surge XT (GPL-3.0) for reference | planned |

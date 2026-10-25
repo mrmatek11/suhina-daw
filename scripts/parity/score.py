@@ -232,8 +232,8 @@ CHAPTERS = [
      "locking, simplifying envelopes."),
     (27, "Clip Envelopes", 13, 0.00, "absent", "No clip envelopes."),
     (28, "Working with Video", 6, 0.00, "absent", "No video import or window."),
-    (29, "Live Audio Effect Reference", 139, 0.19, "partial",
-     "Suhina has 9 effects (utility, auto-pan, three-band DJ EQ, vinyl distortion, overdrive, "
+    (29, "Live Audio Effect Reference", 139, 0.20, "partial",
+     "Suhina has 10 effects (utility, auto-pan, three-band DJ EQ, filter, vinyl distortion, overdrive, "
      "compressor, limiter, delay, reverb) against 42 documented audio effects; the delay and reverb "
      "take every parameter of their counterparts, several others are close in kind but far "
      "narrower in parameters and modes."),

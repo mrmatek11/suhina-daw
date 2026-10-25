@@ -4657,6 +4657,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "suhina-device-filter"
+version = "0.0.1"
+dependencies = [
+ "suhina-device-api",
+ "suhina-dsp",
+ "suhina-test-support",
+]
+
+[[package]]
 name = "suhina-device-fm-synth"
 version = "0.0.1"
 dependencies = [
@@ -4714,6 +4723,7 @@ dependencies = [
  "suhina-device-compressor",
  "suhina-device-delay",
  "suhina-device-dj-eq",
+ "suhina-device-filter",
  "suhina-device-fm-synth",
  "suhina-device-limiter",
  "suhina-device-nam-amp-modeler",

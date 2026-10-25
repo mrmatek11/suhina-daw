@@ -17,7 +17,7 @@ use suhina_device_api::{
     DEFAULT_SAMPLE_RATE, Device, DeviceError, DeviceInfo, ParamBank, ParamInfo, ProcessContext, Role, Scale, Unit,
     check_sample_rate,
 };
-use suhina_dsp::lfo::{Shape, wave};
+use suhina_dsp::lfo::{DEFAULT_SYNCED_RATE, SHAPE_NAMES, SYNCED_RATE_NAMES, SYNCED_RATES, Shape, wave};
 use suhina_dsp::{OnePole, Smoother};
 
 /// Ramp for changes of the amount.
@@ -38,37 +38,6 @@ pub mod param {
     pub const INVERT: usize = 8;
     pub(crate) const COUNT: usize = 9;
 }
-
-/// Options of the synced rate, and their length in beats.
-const SYNCED_RATES: [(&str, f64); 15] = [
-    ("8 Bars", 32.0),
-    ("4 Bars", 16.0),
-    ("2 Bars", 8.0),
-    ("1 Bar", 4.0),
-    ("1/2", 2.0),
-    ("1/4 Dotted", 1.5),
-    ("1/2 Triplet", 4.0 / 3.0),
-    ("1/4", 1.0),
-    ("1/8 Dotted", 0.75),
-    ("1/4 Triplet", 2.0 / 3.0),
-    ("1/8", 0.5),
-    ("1/8 Triplet", 1.0 / 3.0),
-    ("1/16", 0.25),
-    ("1/16 Triplet", 1.0 / 6.0),
-    ("1/32", 0.125),
-];
-const SYNCED_RATE_NAMES: [&str; 15] = {
-    let mut names = [""; 15];
-    let mut i = 0;
-    while i < SYNCED_RATES.len() {
-        names[i] = SYNCED_RATES[i].0;
-        i += 1;
-    }
-    names
-};
-/// Index of "1/4" in [`SYNCED_RATES`].
-const DEFAULT_SYNCED_RATE: usize = 7;
-const SHAPE_NAMES: [&str; 6] = ["Sine", "Triangle", "Saw Up", "Saw Down", "Square", "Random"];
 
 const PARAMS: [ParamInfo; param::COUNT] = [
     ParamInfo::continuous("amount", "Amount", (0.0, 1.0), 0.5, Unit::Percent, Scale::Linear),

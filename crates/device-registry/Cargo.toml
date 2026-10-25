@@ -10,6 +10,7 @@ suhina-device-api.workspace = true
 suhina-device-sdk.workspace = true
 suhina-device-utility.workspace = true
 suhina-device-auto-pan.workspace = true
+suhina-device-filter.workspace = true
 suhina-device-dj-eq.workspace = true
 suhina-device-vinyl-distortion.workspace = true
 suhina-device-overdrive.workspace = true

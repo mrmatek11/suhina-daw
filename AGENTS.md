@@ -127,6 +127,7 @@ devices/
   utility  gain, balance, width, mono, bass mono, phase, channels, DC filter; depends on dsp, device-api
   auto-pan LFO panning and tremolo, free in Hz or synced to the song position
   dj-eq    three bands with kills, Linkwitz-Riley crossovers at 24 or 48 dB/octave
+  filter   state-variable filter: five responses, 12 or 24 dB/octave, drive, LFO and envelope follower on the cutoff
   vinyl-distortion  tracing (even), pinch (odd, out of phase) and crackle, oversampled
   overdrive  pedal-style: band, drive, tone, dynamics, dry/wet; oversampled
   compressor stereo-linked, soft knee, side-chain high-pass, attack/release, dry/wet
